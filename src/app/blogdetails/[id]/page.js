@@ -2,7 +2,7 @@
 'use client';
 import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'next/navigation';
-
+import { useRouter } from 'next/navigation';
 const GET_POST_BY_ID = gql`
   query GetPost($id: ID!) {
     post(id: $id) {
@@ -16,6 +16,7 @@ const GET_POST_BY_ID = gql`
 
 export default function BlogPostPage() {
   const { id } = useParams();
+  const router = useRouter();
   const { loading, error, data } = useQuery(GET_POST_BY_ID, {
     variables: { id },
   });
@@ -39,6 +40,15 @@ export default function BlogPostPage() {
       <p className="text-sm text-gray-500 italic">Written by {author}</p>
       <span className="text-xs text-gray-400">🕒 3 min read</span>
     </div>
+
+     <div className="flex justify-end">
+        <button
+          onClick={() => router.back()}
+          className="mt-4 px-4 py-2 bg-orange-400 hover:bg-gray-300 text-sm rounded"
+        >
+          ← Back
+        </button>
+      </div>
   </div>
   
   );
